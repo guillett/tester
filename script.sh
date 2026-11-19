@@ -6,7 +6,7 @@ NAME=$1
 REPOSITORY_URL=$2
 TEST_COMMAND=$3
 NO_UV=$4
-CORE_PATH=../core
+CORE_PATH=../next/core
 
 if ! [ -d tmp ]
 then
