@@ -25,7 +25,7 @@ def main() -> None:
             command += " no_uv"
 
         try:
-            result = subprocess.run(command, shell=True, timeout=120)
+            result = subprocess.run(command, shell=True, timeout=5*60)
         except subprocess.TimeoutExpired as e:
             s["check_status"] = "TIMEOUT"
         else:
