@@ -11,6 +11,7 @@ def main() -> None:
     for s in config["sources"]:
         name = s['name']
         repo = s['repository']
+        print(f"Checking for {name}")
 
         check_repo_url = requests.get(repo)
         if check_repo_url.status_code == 404:
@@ -18,15 +19,24 @@ def main() -> None:
             continue
 
         cmd = s['check_command']
-        #cmd = "echo test"
         command = f"./script.sh \"{name}\" \"{repo}\" \"{cmd}\""
 
         if 'no_uv' in s:
             command += " no_uv"
 
-        result = subprocess.run(command, shell=True, timeout=120)
-        s["check_status"] = "OK"
+        try:
+            result = subprocess.run(command, shell=True, timeout=120)
+        except subprocess.TimeoutExpired as e:
+            s["check_status"] = "TIMEOUT"
+        else:
+            s["check_status"] = "OK"
 
+        print(s["check_status"])
+        print()
+
+
+    print()
+    print("Summary")
     for source in config["sources"]:
         print(source["name"])
         print(source["check_status"])
