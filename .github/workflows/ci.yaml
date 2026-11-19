@@ -1,0 +1,28 @@
+---
+name: Testing breaking changes in Country packages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    env:
+      # To colorize output of make tasks.
+      TERM: xterm-256color
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v9.0.0
+        with:
+          python-version: 3.15
+
+      - name: Add core
+        run: git clone --depth 1 --branch refactor-scales  https://github.com/openfisca/openfisca-core next/core
+
+      - name: Test
+        run: uv run openfisca-tester

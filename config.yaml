@@ -1,0 +1,16 @@
+sources:
+  - name: openfisca-france
+    repository: https://github.com/openfisca/openfisca-france
+    check_command: uv run pytest tests/test_basics.py -k scenario_arguments0
+    command: uv run make test openfisca_args="--in-parallel"
+  - name: openfisca-tunisia
+    repository: https://github.com/openfisca/openfisca-tunisia
+    check_command: uv run --frozen pytest tests/test_basics.py -k one_scenario_arguments0
+    command: uv run --frozen make test
+  - name: OpenFisca-Japan
+    repository: https://github.com/project-inclusive/OpenFisca-Japan
+    check_command: openfisca test --country-package openfisca_japan openfisca_japan/tests/住民税/住民税.yaml
+    no_uv: true
+  - name: OpenFisca-Nouvelle-Caledonie
+    repository: https://github.com/openfisca/openfisca-nouvelle-caledonie
+    check_command: uv run openfisca test --country-package openfisca_nouvelle_caledonie openfisca_nouvelle_caledonie/tests/age.yaml
